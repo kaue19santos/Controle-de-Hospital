@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build with G++",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-g",
+          "-o",
+          "tp3.out",
+          "main.cpp",
+          "escalonador.cpp",
+          "fila.cpp",
+          "paciente.cpp",
+          "procedimento.cpp"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "detail": "g++ -g -o tp3.out main.cpp escalonador.cpp fila.cpp paciente.cpp procedimento.cpp"
+      }
+    ]
+  }
+  

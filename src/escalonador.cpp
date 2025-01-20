@@ -62,7 +62,7 @@ void Escalonador::HeapifyPorBaixo(int posicao) {
         pacientes[esquerda].getMes() == pacientes[menor].getMes() &&
         pacientes[esquerda].getDia() == pacientes[menor].getDia() &&
         pacientes[esquerda].getHora() == pacientes[menor].getHora() &&
-        pacientes[esquerda].getId() < pacientes[menor].getId()))) {
+        std::stoi(pacientes[esquerda].getId()) < std::stoi(pacientes[menor].getId())))) {
     menor = esquerda;
   }
 
@@ -82,7 +82,7 @@ void Escalonador::HeapifyPorBaixo(int posicao) {
         pacientes[direita].getMes() == pacientes[menor].getMes() &&
         pacientes[direita].getDia() == pacientes[menor].getDia() &&
         pacientes[direita].getHora() == pacientes[menor].getHora() &&
-        pacientes[direita].getId() < pacientes[menor].getId()))) {
+        std::stoi(pacientes[esquerda].getId()) < std::stoi(pacientes[menor].getId())))) {
     menor = direita;
   }
 
@@ -112,7 +112,7 @@ void Escalonador::HeapifyPorCima(int posicao) {
          pacientes[ancestral].getMes() == pacientes[posicao].getMes() &&
          pacientes[ancestral].getDia() == pacientes[posicao].getDia() &&
          pacientes[ancestral].getHora() == pacientes[posicao].getHora() &&
-         pacientes[ancestral].getId() > pacientes[posicao].getId())) {
+         std::stoi(pacientes[ancestral].getId()) > std::stoi(pacientes[posicao].getId()))) {
       // Troca
       Paciente temporario = pacientes[posicao];
       pacientes[posicao] = pacientes[ancestral];
@@ -147,4 +147,34 @@ bool Escalonador::isEmpty() {
   } else {
     return false;
   }
+}
+
+void Escalonador::organizaPorHora() {
+    for (int i = 1; i < num_pacientes; i++) {
+        int j = i;
+        while (j > 0 && pacientes[j].getHora() < pacientes[j - 1].getHora()) {
+            // Trocar pacientes[j] e pacientes[j - 1]
+            Paciente temp = pacientes[j];
+            pacientes[j] = pacientes[j - 1];
+            pacientes[j - 1] = temp;
+            j--;
+        }
+    }
+}
+
+void Escalonador::organizaPorID() {
+    for (int i = 1; i < num_pacientes; i++) {
+        int j = i;
+        while (j > 0 && pacientes[j].getId() < pacientes[j - 1].getId() && pacientes[j].getHora() == pacientes[j - 1].getHora()) {
+            // Trocar pacientes[j] e pacientes[j - 1]
+            Paciente temp = pacientes[j];
+            pacientes[j] = pacientes[j - 1];
+            pacientes[j - 1] = temp;
+            j--;
+        }
+    }
+}
+
+Paciente& Escalonador::getPaciente(int i) const {
+    return pacientes[i];
 }

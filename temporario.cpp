@@ -125,9 +125,9 @@ void imprimirHorario(int idPaciente, int dia, int mes, int ano, int horaChegada,
 
   // Formatando e imprimindo os horários
   char bufferChegada[80], bufferSaida[80];
-  strftime(bufferChegada, sizeof(bufferChegada), "%a %b %e %H:%M:%S %Y",
+  strftime(bufferChegada, sizeof(bufferChegada), "%a %b %d %H:%M:%S %Y",
            &chegada);
-  strftime(bufferSaida, sizeof(bufferSaida), "%a %b %e %H:%M:%S %Y", saida);
+  strftime(bufferSaida, sizeof(bufferSaida), "%a %b %d %H:%M:%S %Y", saida);
 
   std::cout << bufferChegada << " " << bufferSaida << " ";
   std::cout << std::fixed << std::setprecision(2) << tempoEmHoras << " ";
@@ -282,13 +282,11 @@ int main(int argc, char **argv) {
           .desenfileira(); // Remova o elemento apenas depois de enfileirar
     }
   }
-  std::cout << atendimento_vermelho.getSize() << std::endl;
+
   atendimento_vermelho.imprime();
   std::cout << "\n" << std::endl;
-  std::cout << atendimento_amarelo.getSize() << std::endl;
   atendimento_amarelo.imprime();
   std::cout << "\n" << std::endl;
-  std::cout << atendimento_verde.getSize() << std::endl;
   atendimento_verde.imprime();
   std::cout << "\n" << std::endl;
 
@@ -315,7 +313,7 @@ int main(int argc, char **argv) {
       }
 
       while (!atendimento_amarelo.isEmpty() && atendimento_em_uso.hasSpace() &&
-             atendimento_amarelo.getFront().somaDoTempo() <= (hora_atual + 0.0001 + procedimentos.getTempoAtendimento())) {
+             atendimento_amarelo.getFront().somaDoTempo() <= hora_atual) {
         paciente_atendimento = atendimento_amarelo.getFront();
         atendimento_em_uso.enfileira(paciente_atendimento);
         atendimento_amarelo.desenfileira();
@@ -323,7 +321,7 @@ int main(int argc, char **argv) {
       }
 
       while (!atendimento_verde.isEmpty() &&
-             atendimento_verde.getFront().somaDoTempo() <= (hora_atual + 0.0001 + procedimentos.getTempoAtendimento()) &&
+             atendimento_verde.getFront().somaDoTempo() <= hora_atual &&
              atendimento_em_uso.hasSpace()) {
         paciente_atendimento = atendimento_verde.getFront();
         atendimento_em_uso.enfileira(paciente_atendimento);
@@ -340,8 +338,6 @@ int main(int argc, char **argv) {
     hora_atual = hora_atual + procedimentos.getTempoAtendimento();
     for (int i = 0; i < atendimento_em_uso.getSize(); i++) {
         if (hora_atual > atendimento_em_uso.getPaciente(i).somaDoTempo()) {
-          std::cout << atendimento_em_uso.getPaciente(i).somaDoTempo();
-          std::cout << hora_atual << std::endl;
           hora_atual = atendimento_em_uso.getPaciente(i).somaDoTempo();
         }
       }

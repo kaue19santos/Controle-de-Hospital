@@ -38,6 +38,13 @@ public:
   void Imprimir();
 
   bool isEmpty();
+
+  void organizaPorHora(); //Função para organizar o escalonador por hora
+
+  void organizaPorID(); //Função para organizar o escalonador por id
+
+  Paciente& getPaciente(int i) const; // pega paciente pela posição
+
 };
 
 #endif

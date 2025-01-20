@@ -7,7 +7,7 @@ OBJ_FOLDER = ./obj/
 SRC_FOLDER = ./src/
 
 MAIN = Main
-TARGET = tp3.out
+TARGET = tp2.out
 SRC = $(wildcard $(SRC_FOLDER)*.cpp)
 OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
 
